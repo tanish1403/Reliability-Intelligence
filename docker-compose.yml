@@ -1,0 +1,21 @@
+# Optional local PostgreSQL service for a later milestone.
+# Start only after reviewing and changing the development credentials.
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: reliability
+      POSTGRES_USER: reliability
+      POSTGRES_PASSWORD: local-dev-change-me
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U reliability -d reliability"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:
